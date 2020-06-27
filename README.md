@@ -20,7 +20,7 @@ REST appとの互換...？キャッシュ...？
 
 * [sangria](https://github.com/sangria-graphql/sangria)
 Top of MAJOR、[graphql.org/code](https://graphql.org/code/#scala)  
-助けてくれる人募集中  
+助けてくれる人募集中とのこと  
 * [graphcool](https://github.com/prisma/graphcool-framework)  
 最終更新が２年前  
 * [caliban](https://github.com/ghostdogpr/caliban)  
