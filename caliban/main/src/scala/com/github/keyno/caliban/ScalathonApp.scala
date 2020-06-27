@@ -9,7 +9,7 @@ import caliban.interop.circe.AkkaHttpCirceAdapter
 import caliban.schema.Annotations.GQLDescription
 import caliban.schema.GenericSchema
 import caliban.wrappers.Wrappers.{maxDepth, maxFields, printSlowQueries, timeout}
-import com.github.keyno.caliban.ScalathonData.{MoviewArgs, MoviewsArgs}
+import com.github.keyno.caliban.ScalathonData.{MoviewArgs, MoviewsArgs, TheaterArgs, TheatersArgs, movies, theaters}
 import com.github.keyno.caliban.ScalathonService.ScalathonService
 import zio.clock.Clock
 import zio.console.Console
@@ -18,7 +18,6 @@ import zio.duration._
 import caliban.wrappers.ApolloTracing.apolloTracing
 
 import scala.concurrent.ExecutionContextExecutor
-import com.github.keyno.caliban.ScalathonData.movies
 import zio.internal.Platform
 
 import scala.io.StdIn
@@ -27,7 +26,7 @@ object ScalathonApp extends scala.App with AkkaHttpCirceAdapter {
   implicit val system: ActorSystem                        = ActorSystem()
   implicit val executionContext: ExecutionContextExecutor = system.dispatcher
   implicit val runtime: Runtime[ScalathonService with Console with Clock] =
-    Runtime.unsafeFromLayer(ScalathonService.make(movies) ++ Console.live ++ Clock.live, Platform.default)
+    Runtime.unsafeFromLayer(ScalathonService.make(movies, theaters) ++ Console.live ++ Clock.live, Platform.default)
   val interpreter = runtime.unsafeRun(ScalathonApi.api.interpreter)
   private val runHost = "localhost"
   private val runPort = 8090
@@ -53,21 +52,33 @@ object ScalathonService {
   trait ServiceBase {
     def getMovie(id: Int): UIO[Option[Movie]]
     def getMovies(): UIO[List[Movie]]
+    def getTheater(id: Int): UIO[Option[Theater]]
+    def getTheaters(): UIO[List[Theater]]
   }
   // URIO の引数は case class が必要
   def getMovie(id: Int): URIO[ScalathonService, Option[Movie]] =
     URIO.accessM(_.get.getMovie(id))
   def getMovies(): URIO[ScalathonService, List[Movie]] =
     URIO.accessM(_.get.getMovies())
+  def getTheater(id: Int): URIO[ScalathonService, Option[Theater]] =
+    URIO.accessM(_.get.getTheater(id))
+  def getTheaters(): URIO[ScalathonService, List[Theater]] =
+    URIO.accessM(_.get.getTheaters())
+
 
   // make
-  def make(initial: List[Movie]): ZLayer[Any, Nothing, ScalathonService] = ZLayer.fromEffect {
+  def make(initial: List[Movie], initialTheater: List[Theater]): ZLayer[Any, Nothing, ScalathonService] = ZLayer.fromEffect {
     for {
       movies <- Ref.make(initial)
+      theaters <- Ref.make(initialTheater)
     } yield new ServiceBase {
       override def getMovie(id: Int): UIO[Option[Movie]] = movies.get.map(_.find(m => m.id == id))
 
       override def getMovies(): UIO[List[Movie]] = movies.get // filter しないので全部返す
+
+      override def getTheater(id: Int): UIO[Option[Theater]] = theaters.get.map(_.find(t => t.id == id))
+
+      override def getTheaters(): UIO[List[Theater]] = theaters.get // filter しないので全部返す
     }
   }
 }
@@ -77,21 +88,30 @@ object ScalathonApi extends GenericSchema[ScalathonService] {
                     @GQLDescription("movie")
                     movie: MoviewArgs => URIO[ScalathonService, Option[Movie]],
                     @GQLDescription("movies")
-                    movies: MoviewsArgs => URIO[ScalathonService, List[Movie]]
+                    movies: MoviewsArgs => URIO[ScalathonService, List[Movie]],
+                    @GQLDescription("theater")
+                    theater: TheaterArgs => URIO[ScalathonService, Option[Theater]],
+                    @GQLDescription("theaters")
+                    theaters: TheatersArgs => URIO[ScalathonService, List[Theater]],
                     )
 
   // データのスキーマ
   implicit val movieSchema = gen[Movie]
+  implicit val theaterSchema = gen[Theater]
   // 引数のスキーマ
   implicit val movieArgSchema = gen[MoviewArgs]
   implicit val moviesArgSchema = gen[MoviewsArgs]
+  implicit val theaterArgSchema = gen[TheaterArgs]
+  implicit val theatersArgSchema = gen[TheatersArgs]
 
   val api: GraphQL[Console with Clock with ScalathonService] =
     graphQL(
       RootResolver(
         Queries(
           args => ScalathonService.getMovie(args.id),
-          args => ScalathonService.getMovies()
+          args => ScalathonService.getMovies(),
+          args => ScalathonService.getTheater(args.id),
+          args => ScalathonService.getTheaters(),
         )
       )
     ) @@ // たぶんオプションやの、チューニングパラメーター
