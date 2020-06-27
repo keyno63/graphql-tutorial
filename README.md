@@ -28,7 +28,7 @@ Top of MAJOR、[graphql.org/code](https://graphql.org/code/#scala)
 Pure Functional、[ZIO](https://github.com/zio/zio)  
 
 ### やったこと
-「sangria はすごい。でもボイラーテンプレート感」  
+「sangria はすごい。でもボイラーテンプレート感」（[拙作](https://github.com/keyno63/sangria-play-sample/blob/master/app/domain/graphql/SchemaDefinition.scala)）  
 akka adaptor を使って、独自定義の Schema のデータ取得実装    
 localhost:8090 に Query  
 
@@ -37,5 +37,5 @@ ZIO...
 
 ### start
 ```
-com.github.keyno.caliban.ScalathonApp
+caliban/com.github.keyno.caliban.ScalathonApp
 ```
