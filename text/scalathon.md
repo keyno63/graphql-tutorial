@@ -32,7 +32,7 @@ Pure Functional、[ZIO](https://github.com/zio/zio)
 akka adaptor を使って、独自定義の Schema のデータ取得実装    
 localhost:8090 に Query  
 
-DBクエリ、Play、複数データ取得、Mutation・Subscribe はごめんなさい  
+DBクエリ、Play、複数データ取得、Mutation・Subscribe、playgorund/graphiql はごめんなさい  
 ZIO...
 
 ### start
