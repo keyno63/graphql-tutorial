@@ -13,7 +13,7 @@ REST appとの互換...？キャッシュ...？
 |GraphQL|REST|DB SQL|備考|  
 | --- | --- | --- | --- |
 |Query|GET|SELECT|副作用なし、データの取得|  
-|Mutation|POST/DELETE/PUT...|INSEERT/UPDATE/DELETE|副作用なし、データの取得|  
+|Mutation|POST/DELETE/PUT...|INSEERT/UPDATE/DELETE|副作用あり、データの更新|  
 |Subscribe|?|?|状態の更新通知?|  
 
 ### GrpahQL for Scala
