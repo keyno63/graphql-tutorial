@@ -33,8 +33,8 @@ object ScalathonApp extends scala.App with AkkaHttpCirceAdapter {
   val route =
     path("api" / "graphql") {
       adapter.makeHttpService(interpreter)
-    } ~ path("graphiql") {
-      getFromResource("graphiql.html")
+    } ~ path("playground") {
+      getFromResource("playground.html")
     }
   val bindingFuture = Http().bindAndHandle(route, runHost, runPort)
   println(s"Server online at http://${runHost}:${runPort}/\nPress RETURN to stop...")
