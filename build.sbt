@@ -58,6 +58,8 @@ lazy val `sangria` = (project in file("sangria"))
 lazy val `caliban` = (project in file("caliban"))
   .settings(commonSettings)
   .settings(
+    name := "caliban",
+    fork in run := true,
     libraryDependencies ++= Seq(
       "com.github.ghostdogpr" %% "caliban",
       "com.github.ghostdogpr" %% "caliban-akka-http"
