@@ -33,6 +33,8 @@ object ScalathonApp extends scala.App with AkkaHttpCirceAdapter {
   val route =
     path("api" / "graphql") {
       adapter.makeHttpService(interpreter)
+    } ~ path("graphql") {
+      adapter.makeHttpService(interpreter)
     } ~ path("playground") {
       getFromResource("playground.html")
     }
