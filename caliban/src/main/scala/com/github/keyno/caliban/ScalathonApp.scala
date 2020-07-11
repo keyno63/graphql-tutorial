@@ -98,22 +98,22 @@ object ScalathonApi extends GenericSchema[ScalathonService] {
                     )
 
   // データのスキーマ
-  implicit val movieSchema = gen[Movie]
-  implicit val theaterSchema = gen[Theater]
+  implicit val movieSchema: ScalathonApi.Typeclass[Movie] = gen[Movie]
+  implicit val theaterSchema: ScalathonApi.Typeclass[Theater] = gen[Theater]
   // 引数のスキーマ
-  implicit val movieArgSchema = gen[MoviewArgs]
-  implicit val moviesArgSchema = gen[MoviewsArgs]
-  implicit val theaterArgSchema = gen[TheaterArgs]
-  implicit val theatersArgSchema = gen[TheatersArgs]
+  implicit val movieArgSchema: ScalathonApi.Typeclass[MoviewArgs] = gen[MoviewArgs]
+  implicit val moviesArgSchema: ScalathonApi.Typeclass[MoviewsArgs] = gen[MoviewsArgs]
+  implicit val theaterArgSchema: ScalathonApi.Typeclass[TheaterArgs] = gen[TheaterArgs]
+  implicit val theatersArgSchema: ScalathonApi.Typeclass[TheatersArgs] = gen[TheatersArgs]
 
   val api: GraphQL[Console with Clock with ScalathonService] =
     graphQL(
       RootResolver(
         Queries(
           args => ScalathonService.getMovie(args.id),
-          args => ScalathonService.getMovies(),
+          _ => ScalathonService.getMovies(),
           args => ScalathonService.getTheater(args.id),
-          args => ScalathonService.getTheaters(),
+          _ => ScalathonService.getTheaters(),
         )
       )
     ) @@ // たぶんオプションやの、チューニングパラメーター

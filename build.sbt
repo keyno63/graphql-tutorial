@@ -11,7 +11,7 @@ lazy val sangriaVersion = "2.0.0"
 lazy val sangriaSlowlogVersion = "0.1.8"
 lazy val sangriaCirceVersion = "1.2.1"
 
-val calibanVersion = "0.8.2"
+val calibanVersion = "0.9.0"
 
 lazy val circeVersion = "0.12.1"
 lazy val circeOptVersion = "0.9.3"
