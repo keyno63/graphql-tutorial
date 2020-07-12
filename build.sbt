@@ -16,6 +16,8 @@ val calibanVersion = "0.9.0"
 lazy val circeVersion = "0.12.1"
 lazy val circeOptVersion = "0.9.3"
 lazy val circePlayVersion = "2812.0"
+lazy val akkaVersion = "2.6.7"
+lazy val playVersion = "2.8.1"
 
 lazy val commonSettings = Seq(
   scalaVersion := scalaBaseVersion,
@@ -25,8 +27,8 @@ lazy val commonSettings = Seq(
     "org.scalatest" %% "scalatest" % "3.0.5" % "test",
 
     // akka
-    "com.typesafe.akka" %% "akka-actor" % "2.6.0-M5",
-    "com.typesafe.akka" %% "akka-testkit" % "2.6.0-M5" % Test,
+    "com.typesafe.akka" %% "akka-actor" % akkaVersion,
+    "com.typesafe.akka" %% "akka-testkit" % akkaVersion % Test,
   ),
 )
 
@@ -67,5 +69,10 @@ lazy val `caliban` = (project in file("caliban"))
       Seq(
         "de.heikoseeberger" %% "akka-http-circe"  % "1.32.0",
         "io.circe"          %% "circe-generic"    % circeVersion
+      ) ++
+      Seq(
+        "com.github.ghostdogpr" %% "caliban-play"          % calibanVersion,
+        "com.typesafe.akka"     %% "akka-actor-typed"      % akkaVersion,
+        "com.typesafe.play"     %% "play-akka-http-server" % playVersion
       )
   )
