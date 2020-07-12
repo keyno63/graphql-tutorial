@@ -1,25 +1,23 @@
-package com.github.keyno.caliban
+package com.github.keyno.caliban.scalathon
 
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.server.Directives._
-import caliban.{GraphQL, RootResolver}
 import caliban.GraphQL.graphQL
 import caliban.interop.circe.AkkaHttpCirceAdapter
 import caliban.schema.Annotations.GQLDescription
 import caliban.schema.GenericSchema
 import caliban.wrappers.Wrappers.{maxDepth, maxFields, printSlowQueries, timeout}
-import com.github.keyno.caliban.ScalathonData.{MoviewArgs, MoviewsArgs, TheaterArgs, TheatersArgs, movies, theaters}
-import com.github.keyno.caliban.ScalathonService.ScalathonService
+import caliban.{GraphQL, RootResolver}
+import com.github.keyno.caliban.scalathon.ScalathonData._
+import com.github.keyno.caliban.scalathon.ScalathonService.ScalathonService
 import zio.clock.Clock
 import zio.console.Console
-import zio.{Has, Ref, Runtime, UIO, URIO, ZLayer}
 import zio.duration._
-import caliban.wrappers.ApolloTracing.apolloTracing
+import zio.internal.Platform
+import zio.{Has, Ref, Runtime, UIO, URIO, ZLayer}
 
 import scala.concurrent.ExecutionContextExecutor
-import zio.internal.Platform
-
 import scala.io.StdIn
 
 object ScalathonApp extends scala.App with AkkaHttpCirceAdapter {
@@ -67,8 +65,7 @@ object ScalathonService {
   def getTheaters(): URIO[ScalathonService, List[Theater]] =
     URIO.accessM(_.get.getTheaters())
 
-
-  // make
+  // make. runtime の生成に使用.
   def make(initial: List[Movie], initialTheater: List[Theater]): ZLayer[Any, Nothing, ScalathonService] = ZLayer.fromEffect {
     for {
       movies <- Ref.make(initial)

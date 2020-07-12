@@ -1,18 +1,18 @@
-package com.github.keyno.caliban
+package com.github.keyno.caliban.orgExample
 
-import scala.concurrent.ExecutionContextExecutor
-import scala.language.postfixOps
-import scala.io.StdIn
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.server.Directives._
-import com.github.keyno.caliban.ExampleData._
-import com.github.keyno.caliban.ExampleService.ExampleService
 import caliban.interop.circe.AkkaHttpCirceAdapter
-import zio.internal.Platform
-import zio._
+import com.github.keyno.caliban.orgExample.ExampleService.ExampleService
+import com.github.keyno.caliban.orgExample.ExampleData.sampleCharacters
+import zio.Runtime
 import zio.clock.Clock
 import zio.console.Console
+import zio.internal.Platform
+
+import scala.concurrent.ExecutionContextExecutor
+import scala.io.StdIn
 
 // copy from caliban akka sample from github.
 object ExampleApp extends scala.App with AkkaHttpCirceAdapter {

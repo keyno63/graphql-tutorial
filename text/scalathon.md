@@ -38,5 +38,5 @@ ZIO...
 
 ### start
 ```
-caliban/com.github.keyno.caliban.ScalathonApp
+caliban/com.github.keyno.caliban.scalathon.ScalathonApp
 ```

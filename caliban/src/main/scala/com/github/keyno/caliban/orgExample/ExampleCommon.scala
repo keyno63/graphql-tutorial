@@ -1,19 +1,18 @@
-package com.github.keyno.caliban
+package com.github.keyno.caliban.orgExample
 
-import caliban.{GraphQL, RootResolver}
 import caliban.GraphQL.graphQL
 import caliban.schema.Annotations.{GQLDeprecated, GQLDescription}
 import caliban.schema.GenericSchema
 import caliban.wrappers.ApolloTracing.apolloTracing
 import caliban.wrappers.Wrappers.{maxDepth, maxFields, printSlowQueries, timeout}
-import com.github.keyno.caliban.ExampleData.{Character, CharacterArgs, CharactersArgs, Origin, Role}
-import zio.{Has, Queue, Ref, UIO, URIO, ZLayer}
+import caliban.{GraphQL, RootResolver}
+import com.github.keyno.caliban.orgExample.ExampleData.Origin._
+import com.github.keyno.caliban.orgExample.ExampleData.Role._
+import com.github.keyno.caliban.orgExample.ExampleData.{Character, CharacterArgs, CharactersArgs, Origin, Role}
+import com.github.keyno.caliban.orgExample.ExampleService.ExampleService
+import zio._
 import zio.clock.Clock
 import zio.console.Console
-import zio.stream.ZStream
-import com.github.keyno.caliban.ExampleData.Origin._
-import com.github.keyno.caliban.ExampleData.Role._
-import com.github.keyno.caliban.ExampleService.ExampleService
 import zio.duration._
 import zio.stream.ZStream
 
