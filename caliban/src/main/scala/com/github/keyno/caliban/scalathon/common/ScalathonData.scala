@@ -1,4 +1,4 @@
-package com.github.keyno.caliban.scalathon
+package com.github.keyno.caliban.scalathon.common
 
 import java.time.LocalDate
 
