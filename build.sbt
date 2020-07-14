@@ -4,7 +4,7 @@ version := appVersion
 
 scalaVersion := scalaBaseVersion
 
-val scalaBaseVersion = "2.12.11"
+val scalaBaseVersion = "2.12.12"
 val appVersion = "0.1"
 
 lazy val sangriaVersion = "2.0.0"
